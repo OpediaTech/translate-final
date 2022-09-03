@@ -5,7 +5,7 @@
 @endpush
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-12">
                     <a class="btn btn-info" href="{{ route('edit') }}">Edit Items</a>
@@ -38,6 +38,7 @@
                             <th scope="col">Payment Type</th>
                             <th scope="col">Notes</th>
                             <th scope="col">Total</th>
+                            <th scope="col">Created_at</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -56,7 +57,8 @@
                                 <td>{{$item->extra_service}}</td>
                                 <td>{{$item->payment_type}}</td>
                                 <td>{{$item->Notes}}</td>
-                                <td>{{$item->grand_total}}</td>
+                                <td>{{$item->grand_total}}$</td>
+                                <td>{{$item->created_at->format('M-d- Y')}}</td>
                               </tr>
                             @endforeach
                          

@@ -53,7 +53,7 @@
                     <!--form panels-->
                     <div class="row">
                         <div class="col-12 ">
-                            <form class="multisteps-form__form" style="height:612px;">
+                            <form id="form" class="multisteps-form__form" style="height:612px;" enctype="multipart/form-data">
                                 <!--single form panel-->
                                 <div class="multisteps-form__panel shadow p-4 rounded bg-white js-active" data-animation="scaleIn">
 
@@ -364,10 +364,12 @@
                                                                      </div>
                                                                      
                                                                       <!-- (B) FILE PICKER -->
-                                                                      <input type="file" id="up-file" class="translate_file" disabled/>
+                                                                    
+                                                                        <input type="file" name="translate_file" id="up-file" class="translate_file" disabled/>
                                                                       <label for="up-file" id="up-label">
                                                                         Choose Files
                                                                       </label>
+                                                                     
                                                                 </div>
                                                                 <div class="col-md-8">
                                                                     <p>Drag and drop or choose files to upload to your order</p>
@@ -497,19 +499,19 @@
                                             <textarea class="multisteps-form__textarea form-control" placeholder="Additional Comments and Requirements" id="notes"></textarea>
                                         </div>
                                                 <div class="form-check mt-4">
-                                                    <input class="form-check-input paymentInput" type="radio" name="payment_type"  value="paypal" id="flexRadioDefault1">
+                                                    <input class="form-check-input paymentInput" type="radio" checked name="payment_type"  value="paypal" id="flexRadioDefault1">
                                                     <label class="form-check-label" for="flexRadioDefault1">
                                                         Pay with paypal
                                                     </label>
                                                 </div>
-                                                <div class="form-check">
+                                                {{-- <div class="form-check">
                                                     <input class="form-check-input paymentInput" type="radio" name="payment_type" value="stripe" id="flexRadioDefault2" checked>
                                                     <label class="form-check-label" for="flexRadioDefault2">
                                                         Pay with Credit Card
                                                     </label>
-                                                </div>
+                                                </div> --}}
 
-                                                <div  id="stripePayment" class="mt-5">
+                                                {{-- <div  id="stripePayment" class="mt-5">
                                                     <form role="form" action="{{ route('make-payment') }}" method="post" class="stripe-payment"
                                                     data-cc-on-file="false" data-stripe-publishable-key="{{ env('STRIPE_KEY') }}"
                                                    >
@@ -557,7 +559,7 @@
                                                     </div>
 
                                                 </form>
-                                                </div>
+                                                </div> --}}
                                                 <div class="paypalPayment mt-5"> <div id="smart-button-container">
                                                     <div style="text-align: center;">
                                                     <div id="paypal-button-container"></div>
@@ -571,7 +573,7 @@
                                             <div class="button-row d-flex mt-4">
                                                 <span class="js-btn-prev" type="button" title="Prev"> <i class="fas fa-long-arrow-alt-left"></i> &nbsp;Prev</span>
                                             </div>
-                                          <div class="button-row d-flex mt-4 common__btn"> <button class="btn btn-primary ml-auto saveItems" type="button" title="Next">Save &nbsp; <i class="fas fa-save"></i></button></div>
+                                          {{-- <div class="button-row d-flex mt-4 common__btn"> <button class="btn btn-primary ml-auto saveItems" type="button" title="Next">Save &nbsp; <i class="fas fa-save"></i></button></div> --}}
                                         </div>
                                     </div>
                                 </div>
@@ -622,10 +624,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         $('.paypalPayment').hide();
+        $('#stripePayment').hide();
         $('.paymentInput').on('click',function(e){
             if(e.target.value == 'stripe'){
-                $('.paypalPayment').hide(100);
-                $('#stripePayment').show(100);
+                $('.paypalPayment').show(100);
+                $('#stripePayment').hide(100);
             }else{
                 $('#stripePayment').hide(100);
                 $('.paypalPayment').show(100);
@@ -1097,11 +1100,7 @@
         </div>
     </div>
         `)
-
     })
-
-
-
 
     // updating data based on input value
 
@@ -1131,10 +1130,8 @@
                     s.childNodes[3].childNodes[1].childNodes[3].innerHTML = Number(t3Ex_price * x).toFixed(2)
                 }
                  
-
                 //storing data
-                
-
+            
                 if (pservice == "{{$data->t2}}") {
                     let v = s.childNodes[3].childNodes[1].childNodes[3].innerHTML
                     window.localStorage.setItem("standardCost", v);
@@ -1149,7 +1146,6 @@
                         let ex = s.childNodes[3].childNodes[1].childNodes[3].innerHTML
                         window.localStorage.setItem("certifiedEXCost", ex);
                     }
-
                 }
             }
         })
@@ -1160,7 +1156,6 @@
     
 
     // Translation warning shows
-
 
     $('#translateFrom').on('change', function() {
         if ($(this).val() != 'English') {
@@ -1178,104 +1173,110 @@
     })
     
 
-    let fileName;
+
+let fileName;
 
 $('#up-file').change(function(e){
     fileName = e.target.files[0].name;
 });
 
+
+
+// $('#up-file').change(function() {
+// //    alert($(this).val()); 
+// fileName = $(this).val();
+// });
     // Stripe integration
     // var $form = $(".stripe-payment");
 
-    var $form = $(".stripe-payment");
+    // var $form = $(".stripe-payment");
     
-    $('form.stripe-payment').bind('submit', function(e) {
-        e.preventDefault();
-        var $form = $(".stripe-payment"),
-            inputVal = ['input[type=text]', 'input[type=file]',
-                'textarea'
-            ].join(', '),
-            $inputs = $form.find('.required').find(inputVal),
-            $errorStatus = $form.find('div.error'),
-            valid = true;
-        $errorStatus.addClass('hide');
+    // $('form.stripe-payment').bind('submit', function(e) {
+    //     e.preventDefault();
+    //     var $form = $(".stripe-payment"),
+    //         inputVal = ['input[type=text]', 'input[type=file]',
+    //             'textarea'
+    //         ].join(', '),
+    //         $inputs = $form.find('.required').find(inputVal),
+    //         $errorStatus = $form.find('div.error'),
+    //         valid = true;
+    //     $errorStatus.addClass('hide');
 
-        $('.has-error').removeClass('has-error');
-        $inputs.each(function(i, el) {
-            var $input = $(el);
-            if ($input.val() === '') {
-                $input.parent().addClass('has-error');
-                $errorStatus.removeClass('hide');
-                e.preventDefault();
-            }
-        });
+    //     $('.has-error').removeClass('has-error');
+    //     $inputs.each(function(i, el) {
+    //         var $input = $(el);
+    //         if ($input.val() === '') {
+    //             $input.parent().addClass('has-error');
+    //             $errorStatus.removeClass('hide');
+    //             e.preventDefault();
+    //         }
+    //     });
 
-        if (!$form.data('cc-on-file')) {
-            e.preventDefault();
-            Stripe.setPublishableKey($form.data('stripe-publishable-key'));
-            Stripe.createToken({
-                number: $('.card-num').val(),
-                cvc: $('.card-cvc').val(),
-                exp_month: $('.card-expiry-month').val(),
-                exp_year: $('.card-expiry-year').val()
-            }, stripeRes);
-        }
+    //     if (!$form.data('cc-on-file')) {
+    //         e.preventDefault();
+    //         Stripe.setPublishableKey($form.data('stripe-publishable-key'));
+    //         Stripe.createToken({
+    //             number: $('.card-num').val(),
+    //             cvc: $('.card-cvc').val(),
+    //             exp_month: $('.card-expiry-month').val(),
+    //             exp_year: $('.card-expiry-year').val()
+    //         }, stripeRes);
+    //     }
 
-    });
+    // });
 
-    function stripeRes(status, response) {
-        if (response.error) {
-            $('.error')
-                .removeClass('hide')
-                .find('.alert')
-                .text(response.error.message);
-        } else {
-            var token = response['id'];
-            let fname = $('#fName').val()
-            let lname = $('#lName').val()
-            let email = $('#email').val()
-            let password = $('#password').val()
-            let page_count = $('#pageCount input').val()
-            let word_count = $('#wordCount input').val()
-            let translate_from = $('#translateFrom').val()
-            let translate_to = $('#translateTo').val()
-            let serviceType;
-            let days = $('.est_days').html()
-            let types = document.querySelectorAll('.common__btn span');
-            types.forEach(e => {
+    // function stripeRes(status, response) {
+    //     if (response.error) {
+    //         $('.error')
+    //             .removeClass('hide')
+    //             .find('.alert')
+    //             .text(response.error.message);
+    //     } else {
+    //         var token = response['id'];
+    //         let fname = $('#fName').val()
+    //         let lname = $('#lName').val()
+    //         let email = $('#email').val()
+    //         let password = $('#password').val()
+    //         let page_count = $('#pageCount input').val()
+    //         let word_count = $('#wordCount input').val()
+    //         let translate_from = $('#translateFrom').val()
+    //         let translate_to = $('#translateTo').val()
+    //         let serviceType;
+    //         let days = $('.est_days').html()
+    //         let types = document.querySelectorAll('.common__btn span');
+    //         types.forEach(e => {
 
-                if (e.innerHTML.trim() == 'Selected') {
-                    serviceType = e.getAttribute('data-value')
-                }
-            })
-            extra_service
-            let grand_total = $('.grand_total').html()
-            let notes = $('#notes').val()
-            var payment_type = "Stripe";
+    //             if (e.innerHTML.trim() == 'Selected') {
+    //                 serviceType = e.getAttribute('data-value')
+    //             }
+    //         })
+    //         extra_service
+    //         let grand_total = $('.grand_total').html()
+    //         let notes = $('#notes').val()
+    //         var payment_type = "Stripe";
         
            
 
-            $form.find('input[type=text]').empty();
-            $form.append("<input type='hidden' name='stripeToken' value='" + token + "'/>");
-            $form.append("<input type='hidden' name='grand_total' value='" + grand_total + "'/>");
-            $form.append("<input type='hidden' name='fname' value='" + fname + "'/>");
-            $form.append("<input type='hidden' name='lname' value='" + lname + "'/>");
-            $form.append("<input type='hidden' name='email' value='" + email + "'/>");
-            $form.append("<input type='hidden' name='password' value='" + password + "'/>");
-            $form.append("<input type='hidden' name='translate_type' value='" + serviceType + "'/>");
-            $form.append("<input type='hidden' name='translate_from' value='" + translate_from + "'/>");
-            $form.append("<input type='hidden' name='translate_to' value='" + translate_to + "'/>");
-            $form.append("<input type='hidden' name='page_count' value='" + page_count + "'/>");
-            $form.append("<input type='hidden' name='word_count' value='" + word_count + "'/>");
-            $form.append("<input type='hidden' name='translated_file' value='" + fileName + "'/>");
-            $form.append("<input type='hidden' name='days' value='" + days + "'/>");
-            $form.append("<input type='hidden' name='extra_service' value='" + extra_service + "'/>");
-            $form.append("<input type='hidden' name='payment_type' value='" + payment_type + "'/>");
-            $form.append("<input type='hidden' name='Notes' value='" + notes + "'/>");
-            $form.get(0).submit();
-        }
-    }
-
+    //         $form.find('input[type=text]').empty();
+    //         $form.append("<input type='hidden' name='stripeToken' value='" + token + "'/>");
+    //         $form.append("<input type='hidden' name='grand_total' value='" + grand_total + "'/>");
+    //         $form.append("<input type='hidden' name='fname' value='" + fname + "'/>");
+    //         $form.append("<input type='hidden' name='lname' value='" + lname + "'/>");
+    //         $form.append("<input type='hidden' name='email' value='" + email + "'/>");
+    //         $form.append("<input type='hidden' name='password' value='" + password + "'/>");
+    //         $form.append("<input type='hidden' name='translate_type' value='" + serviceType + "'/>");
+    //         $form.append("<input type='hidden' name='translate_from' value='" + translate_from + "'/>");
+    //         $form.append("<input type='hidden' name='translate_to' value='" + translate_to + "'/>");
+    //         $form.append("<input type='hidden' name='page_count' value='" + page_count + "'/>");
+    //         $form.append("<input type='hidden' name='word_count' value='" + word_count + "'/>");
+    //         $form.append("<input type='hidden' name='translated_file' value='" + fileName + "'/>");
+    //         $form.append("<input type='hidden' name='days' value='" + days + "'/>");
+    //         $form.append("<input type='hidden' name='extra_service' value='" + extra_service + "'/>");
+    //         $form.append("<input type='hidden' name='payment_type' value='" + payment_type + "'/>");
+    //         $form.append("<input type='hidden' name='Notes' value='" + notes + "'/>");
+    //         $form.get(0).submit();
+    //     }
+    // }
 
 
 
@@ -1304,7 +1305,6 @@ $('#up-file').change(function(e){
                     var payer = orderData.payer;
                     var transaction_id = orderData.id;
                     var amount = orderData.purchase_units[0].amount;
-                    var formData = {};
 
                     let serviceType;
                     let types = document.querySelectorAll('.common__btn span');
@@ -1313,8 +1313,8 @@ $('#up-file').change(function(e){
                             serviceType = e.getAttribute('data-value')
                         }
                     })
-           
-           
+
+                    var formData = {}
                     formData['fname'] = $('#fName').val()
                     formData['lname'] = $('#lName').val()
                     formData['email'] = $('#email').val();
@@ -1329,9 +1329,9 @@ $('#up-file').change(function(e){
                     formData['extra_service'] = extra_service
                     formData['payment_type'] = 'Paypal';
                     formData['Notes'] = $('#notes').val()
-
+             
                     $.ajax({
-                        url: "https://order.queliztranslations.com/paypal-order",
+                        url:  "{{ url('/paypal-order') }}",
                         type: 'GET',
                         data: {
                             data: data,
@@ -1341,8 +1341,7 @@ $('#up-file').change(function(e){
                             amount: amount
                         },
                         success: function(res) {
-                            window.location = "/";
-                            console.log(res)
+                            window.location = "/thank-you";
                         },
                         error: function(error) {
                             console.log(error)
@@ -1372,7 +1371,6 @@ $('#up-file').change(function(e){
     let days = $('.est_days').html()
     let types = document.querySelectorAll('.common__btn span');
     types.forEach(e => {
-
         if (e.innerHTML.trim() == 'Selected') {
             serviceType = e.getAttribute('data-value')
         }
@@ -1380,13 +1378,8 @@ $('#up-file').change(function(e){
     extra_service
     let grand_total = $('.grand_total').html()
     let notes = $('#notes').val()
-
     console.log(fname,lname,email,password,page_count,word_count,translate_from,translate_to,fileName,serviceType,days,grand_total,notes)
-
-
 })
-
-
 
 
 
