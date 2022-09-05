@@ -8,19 +8,20 @@
     <title>Order Form - Queliz Translations</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <link rel="stylesheet" href="{{asset('checkout-form/style.css')}}">
 
 </head>
 
 <body>
-   
+
     @if (Session::has('success'))
         <div class="alert alert-primary text-center">
             <p>{{ Session::get('success') }}</p>
         </div>
     @endif
     <!--PEN CONTENT     -->
-    
+
      <!-- header section start here -->
     <div class="header__section">
         <div class="container">
@@ -30,7 +31,7 @@
         </div>
     </div>
     <!-- header section end here -->
-    
+
      <div class="content">
         <!--content inner-->
         <div class="content__inner">
@@ -178,7 +179,7 @@
                                                                         <option value="" >Translate From*</option>
                                                                               <option value="English">English</option>
                                                                      <option value="Albanian">Albanian</option>
-                                                                  
+
                                                                     <option  value="Amharic">Amharic</option>
                                                                     <option  value="Arabic">Arabic</option>
                                                                     <option value="Armenian">Armenian</option>
@@ -253,7 +254,7 @@
                                     <option value="" >Translate From*</option>
                                      <option value="English">English</option>
                                    <option value="Albanian">Albanian</option>
-                                  
+
                                    <option  value="Amharic">Amharic</option>
                                    <option  value="Arabic">Arabic</option>
                                    <option value="Armenian">Armenian</option>
@@ -354,7 +355,7 @@
                                                                     <!--<div class="chose__docs">-->
                                                                     <!--    <input type="file" id="translate_file" placeholder="Choose File*">-->
                                                                     <!--</div>-->
-                                                                    
+
                                                                  <!-- (A) PROGRESS BAR -->
                                                                      <div id="update_progressbar" style="display: none;">
                                                                         <div id="up-progress" >
@@ -362,14 +363,14 @@
                                                                             <div id="up-percent">0%</div>
                                                                           </div>
                                                                      </div>
-                                                                     
+
                                                                       <!-- (B) FILE PICKER -->
-                                                                    
-                                                                        <input type="file" name="translate_file" id="up-file" class="translate_file" disabled/>
+
+                                                                      <input type="file" name="translate_file" id="up-file" class="translate_file" disabled/>
                                                                       <label for="up-file" id="up-label">
-                                                                        Choose Files
+                                                                          Choose Files
                                                                       </label>
-                                                                     
+
                                                                 </div>
                                                                 <div class="col-md-8">
                                                                     <p>Drag and drop or choose files to upload to your order</p>
@@ -504,71 +505,68 @@
                                                         Pay with paypal
                                                     </label>
                                                 </div>
-                                                {{-- <div class="form-check">
+                                                <div class="form-check">
                                                     <input class="form-check-input paymentInput" type="radio" name="payment_type" value="stripe" id="flexRadioDefault2" checked>
                                                     <label class="form-check-label" for="flexRadioDefault2">
                                                         Pay with Credit Card
                                                     </label>
-                                                </div> --}}
+                                                </div>
 
-                                                {{-- <div  id="stripePayment" class="mt-5">
-                                                    <form role="form" action="{{ route('make-payment') }}" method="post" class="stripe-payment"
+                                                <div  id="stripePayment" class="mt-5">
+                                                 <form role="form" action="{{ route('make-payment') }}" method="post" class="stripe-payment"
                                                     data-cc-on-file="false" data-stripe-publishable-key="{{ env('STRIPE_KEY') }}"
                                                    >
-                                                    @csrf
-                                                    <div class='form-row row mb-2'>
-                                                        <div class='col-xs-12 form-group required'>
-                                                            <label class='control-label'>Name on Card</label> <input class='form-control'
-                                                                size='4' type='text'>
+                                                        @csrf
+                                                        <div class='form-row row mb-2'>
+                                                            <div class='col-xs-12 form-group required'>
+                                                                <label class='control-label'>Name on Card</label> <input class='form-control'
+                                                                    size='4' type='text'>
+                                                            </div>
                                                         </div>
-                                                    </div>
 
-                                                    <div class='form-row row mb-2'>
-                                                        <div class='col-xs-12 form-group  required'>
-                                                            <label class='control-label'>Card Number</label> <input autocomplete='off'
-                                                                class='form-control card-num' size='20' type='text'>
+                                                        <div class='form-row row mb-2'>
+                                                            <div class='col-xs-12 form-group  required'>
+                                                                <label class='control-label'>Card Number</label> <input autocomplete='off'
+                                                                    class='form-control card-num' size='20' type='text'>
+                                                            </div>
                                                         </div>
-                                                    </div>
 
-                                                    <div class='form-row row '>
-                                                        <div class='col-xs-12 col-md-12 form-group cvc required mb-2'>
-                                                            <label class='control-label'>CVC</label>
-                                                            <input autocomplete='off' class='form-control card-cvc' placeholder='e.g 595'
-                                                                size='4' type='text'>
+                                                        <div class='form-row row '>
+                                                            <div class='col-xs-12 col-md-12 form-group cvc required mb-2'>
+                                                                <label class='control-label'>CVC</label>
+                                                                <input autocomplete='off' class='form-control card-cvc' placeholder='e.g 595'
+                                                                    size='4' type='text'>
+                                                            </div>
+                                                            <div class='col-xs-12 col-md-6 form-group expiration required mb-2'>
+                                                                <label class='control-label'>Expiration Month</label> <input
+                                                                    class='form-control card-expiry-month' placeholder='MM' size='2' type='text'>
+                                                            </div>
+                                                            <div class='col-xs-12 col-md-6 form-group expiration required mb-2'>
+                                                                <label class='control-label'>Expiration Year</label> <input
+                                                                    class='form-control card-expiry-year' placeholder='YYYY' size='4' type='text'>
+                                                            </div>
                                                         </div>
-                                                        <div class='col-xs-12 col-md-6 form-group expiration required mb-2'>
-                                                            <label class='control-label'>Expiration Month</label> <input
-                                                                class='form-control card-expiry-month' placeholder='MM' size='2' type='text'>
-                                                        </div>
-                                                        <div class='col-xs-12 col-md-6 form-group expiration required mb-2'>
-                                                            <label class='control-label'>Expiration Year</label> <input
-                                                                class='form-control card-expiry-year' placeholder='YYYY' size='4' type='text'>
-                                                        </div>
-                                                    </div>
 
-                                                    <div class='form-row row d-none erro'>
-                                                        
-                                                        <div class='col-md-12 hide error form-group'>
-                                                            <div class='alert-danger alert'>Fix the errors before you begin.</div>
+                                                        <div class='form-row row d-none'>
+                                                            <div class='col-md-12 hide error form-group'>
+                                                                <div class='alert-danger alert'>Fix the errors before you begin.</div>
+                                                            </div>
                                                         </div>
-                                                    </div>
 
-                                                    <div class="row">
-                                                   
-                                                        <button class="btn btn-primary btn-lg btn-block" type="submit">Pay</button>
-                                                    </div>
-
-                                                </form>
-                                                </div> --}}
+                                                        <div class="row">
+                                                            <button class="btn btn-primary btn-lg btn-block" type="submit">Pay</button>
+                                                        </div>
+                                                 </form>
+                                                </div>
                                                 <div class="paypalPayment mt-5"> <div id="smart-button-container">
                                                     <div style="text-align: center;">
                                                     <div id="paypal-button-container"></div>
                                                     </div>
                                                 </div></div>
-                                        
-                                        
-                                        
-                                        
+
+
+
+
                                         <div class="button-group d-flex justify-content-between">
                                             <div class="button-row d-flex mt-4">
                                                 <span class="js-btn-prev" type="button" title="Prev"> <i class="fas fa-long-arrow-alt-left"></i> &nbsp;Prev</span>
@@ -584,7 +582,8 @@
             </div>
         </div>
     </div>
-    
+
+
       <!-- footer section  start here-->
     <div class="footer__section p-4">
         <div class="container">
@@ -611,8 +610,8 @@
                     </div>
                 </div>
             </div>
-                 
-                    
+
+
                 </div>
             </div>
         </div>
@@ -624,11 +623,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         $('.paypalPayment').hide();
-        $('#stripePayment').hide();
+        $('#stripePayment').show();
         $('.paymentInput').on('click',function(e){
             if(e.target.value == 'stripe'){
-                $('.paypalPayment').show(100);
-                $('#stripePayment').hide(100);
+                $('.paypalPayment').hide(100);
+                $('#stripePayment').show(100);
             }else{
                 $('#stripePayment').hide(100);
                 $('.paypalPayment').show(100);
@@ -639,26 +638,26 @@
             $('.paypalPayment').hide(100);
         })
     </script>
-   
 
- 
-    
+
+
+
     {{-- STRIPE INTEGRATION --}}
-    
+
     <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 
 
 
-    
-    
+
+
     {{-- PAYPAL INTEGRATION --}}
-    
+
     <script src="https://www.paypal.com/sdk/js?client-id=AY29qcLLjWKqD3Yj7xYj-f6rB84oA9hWwFE4yOxuxEwShgNZDRE7_V2LygtgmX_GNENrRR9ac2gbjCPF&currency=USD" data-sdk-integration-source="button-factory"></script>
- 
+
  <script src="{{asset('checkout-form/script.js')}}"></script>
- 
+
 <script>
-        
+
     //   Hide show
     $('#createAccount').on('change', function(e) {
         if ($('#createAccount').is(":checked")) {
@@ -720,7 +719,7 @@
             $('.premium_word').show()
               $('.standerd_word_wrapping').hide()
             $('.premium_word_wrapping').show()
-            
+
             $('.standerd_payment_wrap').hide()
             $('.premium_payment_wrap').show()
             $('.certified_payment_wrap').hide()
@@ -777,7 +776,7 @@
 
 
 
-    // Page/Word price count - finding the cost of prizes based on price rate 
+    // Page/Word price count - finding the cost of prizes based on price rate
     let per_page_word = 250 //words
     let page_price = '{{$data->t1_price}}' //price- usd
     $('.days_estimate').hide()
@@ -984,7 +983,7 @@
     $('.standerd_extra_service').hide()
     $('.premium_extra_service').hide()
 
-    // finding service type 
+    // finding service type
     $('.common__btn span').on('click', function(e) {
         if (pservice == '{{$data->t2}}') {
             $('.standerd_extra_service').show()
@@ -1052,7 +1051,7 @@
                         e.remove()
                         return false;
                     }
-                   
+
                 }
                 let total = Number($('.grand_total').html())
                 let t = Number($(this).prev().children().first().children().last().html()) * $('#wordCount input').val()
@@ -1089,7 +1088,7 @@
             $('.grand_total').html(Number(total + p).toFixed(2))
         }
 
-        // Appending data 
+        // Appending data
         $('.summery').append(`
         <div class="summery_items d-flex justify-content-between w-100 mb-3">
         <div class="pay__dets">
@@ -1129,9 +1128,9 @@
                     let t3Ex_price = "{{$data->t3Ex_price}}"
                     s.childNodes[3].childNodes[1].childNodes[3].innerHTML = Number(t3Ex_price * x).toFixed(2)
                 }
-                 
+
                 //storing data
-            
+
                 if (pservice == "{{$data->t2}}") {
                     let v = s.childNodes[3].childNodes[1].childNodes[3].innerHTML
                     window.localStorage.setItem("standardCost", v);
@@ -1151,9 +1150,6 @@
         })
     })
 
-    
-  
-    
 
     // Translation warning shows
 
@@ -1171,10 +1167,10 @@
             $('.alert-toggle').addClass('show')
         }
     })
-    
-
 
 let fileName;
+
+
 
 $('#up-file').change(function(e){
     fileName = e.target.files[0].name;
@@ -1182,101 +1178,35 @@ $('#up-file').change(function(e){
 
 
 
-// $('#up-file').change(function() {
-// //    alert($(this).val()); 
-// fileName = $(this).val();
-// });
-    // Stripe integration
-    // var $form = $(".stripe-payment");
+$('#up-file').change(function() {
+ let data = new FormData();
+    data.append('translate_file', document.getElementById('up-file').files[0]) ;
 
-    // var $form = $(".stripe-payment");
-    
-    // $('form.stripe-payment').bind('submit', function(e) {
-    //     e.preventDefault();
-    //     var $form = $(".stripe-payment"),
-    //         inputVal = ['input[type=text]', 'input[type=file]',
-    //             'textarea'
-    //         ].join(', '),
-    //         $inputs = $form.find('.required').find(inputVal),
-    //         $errorStatus = $form.find('div.error'),
-    //         valid = true;
-    //     $errorStatus.addClass('hide');
+  $.ajax({
+        url:  "{{ url('/image-upload') }}",
+        type: 'POST',
+        data: data,
+        processData: false, //add this
+        contentType: false, //and this
+        enctype: 'multipart/form-data',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+        },
+        success: function(res) {
+            console.log(res)
+        },
+        error: function(error) {
+            console.log(error)
+        }
+    })
 
-    //     $('.has-error').removeClass('has-error');
-    //     $inputs.each(function(i, el) {
-    //         var $input = $(el);
-    //         if ($input.val() === '') {
-    //             $input.parent().addClass('has-error');
-    //             $errorStatus.removeClass('hide');
-    //             e.preventDefault();
-    //         }
-    //     });
+    });
 
-    //     if (!$form.data('cc-on-file')) {
-    //         e.preventDefault();
-    //         Stripe.setPublishableKey($form.data('stripe-publishable-key'));
-    //         Stripe.createToken({
-    //             number: $('.card-num').val(),
-    //             cvc: $('.card-cvc').val(),
-    //             exp_month: $('.card-expiry-month').val(),
-    //             exp_year: $('.card-expiry-year').val()
-    //         }, stripeRes);
-    //     }
 
-    // });
 
-    // function stripeRes(status, response) {
-    //     if (response.error) {
-    //         $('.error')
-    //             .removeClass('hide')
-    //             .find('.alert')
-    //             .text(response.error.message);
-    //     } else {
-    //         var token = response['id'];
-    //         let fname = $('#fName').val()
-    //         let lname = $('#lName').val()
-    //         let email = $('#email').val()
-    //         let password = $('#password').val()
-    //         let page_count = $('#pageCount input').val()
-    //         let word_count = $('#wordCount input').val()
-    //         let translate_from = $('#translateFrom').val()
-    //         let translate_to = $('#translateTo').val()
-    //         let serviceType;
-    //         let days = $('.est_days').html()
-    //         let types = document.querySelectorAll('.common__btn span');
-    //         types.forEach(e => {
 
-    //             if (e.innerHTML.trim() == 'Selected') {
-    //                 serviceType = e.getAttribute('data-value')
-    //             }
-    //         })
-    //         extra_service
-    //         let grand_total = $('.grand_total').html()
-    //         let notes = $('#notes').val()
-    //         var payment_type = "Stripe";
-        
-           
 
-    //         $form.find('input[type=text]').empty();
-    //         $form.append("<input type='hidden' name='stripeToken' value='" + token + "'/>");
-    //         $form.append("<input type='hidden' name='grand_total' value='" + grand_total + "'/>");
-    //         $form.append("<input type='hidden' name='fname' value='" + fname + "'/>");
-    //         $form.append("<input type='hidden' name='lname' value='" + lname + "'/>");
-    //         $form.append("<input type='hidden' name='email' value='" + email + "'/>");
-    //         $form.append("<input type='hidden' name='password' value='" + password + "'/>");
-    //         $form.append("<input type='hidden' name='translate_type' value='" + serviceType + "'/>");
-    //         $form.append("<input type='hidden' name='translate_from' value='" + translate_from + "'/>");
-    //         $form.append("<input type='hidden' name='translate_to' value='" + translate_to + "'/>");
-    //         $form.append("<input type='hidden' name='page_count' value='" + page_count + "'/>");
-    //         $form.append("<input type='hidden' name='word_count' value='" + word_count + "'/>");
-    //         $form.append("<input type='hidden' name='translated_file' value='" + fileName + "'/>");
-    //         $form.append("<input type='hidden' name='days' value='" + days + "'/>");
-    //         $form.append("<input type='hidden' name='extra_service' value='" + extra_service + "'/>");
-    //         $form.append("<input type='hidden' name='payment_type' value='" + payment_type + "'/>");
-    //         $form.append("<input type='hidden' name='Notes' value='" + notes + "'/>");
-    //         $form.get(0).submit();
-    //     }
-    // }
+
 
 
 
@@ -1329,7 +1259,7 @@ $('#up-file').change(function(e){
                     formData['extra_service'] = extra_service
                     formData['payment_type'] = 'Paypal';
                     formData['Notes'] = $('#notes').val()
-             
+
                     $.ajax({
                         url:  "{{ url('/paypal-order') }}",
                         type: 'GET',
@@ -1380,6 +1310,8 @@ $('#up-file').change(function(e){
     let notes = $('#notes').val()
     console.log(fname,lname,email,password,page_count,word_count,translate_from,translate_to,fileName,serviceType,days,grand_total,notes)
 })
+
+
 
 
 

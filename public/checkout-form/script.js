@@ -7,17 +7,17 @@ var uprog = {
     hPercent : null, // html upload percentage
     hFile : null,    // html file picker
     init : () => {
-        
+
       // (A1) GET HTML ELEMENTS
       uprog.hBar = document.getElementById("up-bar");
       uprog.hPercent = document.getElementById("up-percent");
       uprog.hFile = document.getElementById("up-file");
-  
+
       // (A2) ATTACH AJAX UPLOAD + ENABLE UPLOAD
       uprog.hFile.onchange = uprog.upload;
       uprog.hFile.disabled = false;
     },
-  
+
     // (B) HELPER - UPDATE PROGRESS BAR
     update : (percent) => {
       percent = percent + "%";
@@ -25,7 +25,7 @@ var uprog = {
       uprog.hPercent.innerHTML = percent;
       if (percent == "100%") { uprog.hFile.disabled = false;}
     },
-  
+
     // (C) PROCESS UPLOAD
     upload : async () => {
         $('#update_progressbar').show();
@@ -33,7 +33,7 @@ var uprog = {
       let file = uprog.hFile.files[0];
       uprog.hFile.disabled = true; // disable upload button
       uprog.hFile.value = ""; // reset file picker
-  
+
       // DUMMY UPLOAD DEMO
       await new Promise(e=>{setTimeout(e,500)});
       uprog.update(25);
@@ -43,12 +43,12 @@ var uprog = {
       uprog.update(75);
       await new Promise(e=>{setTimeout(e,500)});
       uprog.update(100);
-      
+
     }
   };
   window.addEventListener("load", uprog.init);
-  
-         
+
+
 
 
 
@@ -172,7 +172,7 @@ var uprog = {
     $('#up-file').change(function(e){
         fileName = e.target.files[0].name;
     });
-   
+
     DOMstrings.stepsBar.addEventListener('click', e => {
 
         //check if click target is a step button
@@ -190,10 +190,10 @@ var uprog = {
 
             let regexEmail = /^\w+([.-]?\w+)@\w+([.-]?\w+)(.\w{2,3})+$/;
                 let emailAddress = $('#email').val();
-                
-  
-               
-            
+
+
+
+
         if ($('#fName').val() == '') {
             $('#fName-error').show()
             return false
@@ -213,8 +213,8 @@ var uprog = {
             }
             toggle = false
         }
-        
-     
+
+
 
         if ($('#translateFrom').val() == '') {
             $('#translateFrom-error').show()
@@ -233,6 +233,8 @@ var uprog = {
             setActivePanel(activeStep);
             toggle = true
         }
+
+
 
     });
 
@@ -261,13 +263,13 @@ var uprog = {
             activePanelNum++;
 
         }
-        
-        
+
+
 
 
 
         setActiveStep(activePanelNum);
-        
+
             let regexEmail = /^\w+([.-]?\w+)@\w+([.-]?\w+)(.\w{2,3})+$/;
                 let emailAddress = $('#email').val();
         if ($('#fName').val() == '') {
@@ -282,7 +284,7 @@ var uprog = {
         }else if (!emailAddress.match(regexEmail)) {
              alert('Invalid Email')
             return false
-        } 
+        }
         else {
             if (toggleForm) {
                 setActivePanel(activePanelNum);
@@ -307,7 +309,6 @@ var uprog = {
             setActivePanel(activePanelNum);
             toggleForm = true
         }
-
     });
 
     //SETTING PROPER FORM HEIGHT ONLOAD
@@ -335,8 +336,125 @@ var uprog = {
 
 
 });
+// $('#up-file').change(function() {
+//     //  alert($(this).val());
+//     // fileName = $(this).val();
+
+//     // let image = document.getElementById('up-file'.files[0]);
+//  let data = new FormData();
+// data.append('image', document.getElementById('up-file').files[0]) ;
+//   $.ajax({
+//         url:  "{{ url('/image-upload') }}",
+//         type: 'POST',
+//         data: data,
+//         processData: false, //add this
+//         contentType: false, //and this
+//         enctype: 'multipart/form-data',
+//         headers: {
+//             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+//         },
+//         success: function(res) {
+//             console.log(res)
+//         },
+//         error: function(error) {
+//             console.log(error)
+//         }
+//     })
+
+//     });
 
 
 
 
+
+ // Stripe integration
+$('.btn-block').click(function(e){
+    e.preventDefault();
+var $form = $(".stripe-payment");
+    $('form.stripe-payment').bind('submit', function(e) {
+        e.preventDefault();
+        var $form = $(".stripe-payment"),
+
+
+            inputVal = ['input[type=text]', 'input[type=file]',
+                'textarea'
+            ].join(', '),
+            $inputs = $form.find('.required').find(inputVal),
+            $errorStatus = $form.find('div.error'),
+            valid = true;
+        $errorStatus.addClass('hide');
+
+        $('.has-error').removeClass('has-error');
+        $inputs.each(function(i, el) {
+            var $input = $(el);
+            if ($input.val() === '') {
+                $input.parent().addClass('has-error');
+                $errorStatus.removeClass('hide');
+                e.preventDefault();
+            }
+        });
+
+        if (!$form.data('cc-on-file')) {
+            e.preventDefault();
+            Stripe.setPublishableKey($form.data('stripe-publishable-key'));
+            Stripe.createToken({
+                number: $('.card-num').val(),
+                cvc: $('.card-cvc').val(),
+                exp_month: $('.card-expiry-month').val(),
+                exp_year: $('.card-expiry-year').val()
+            }, stripeRes);
+        }
+
+    });
+
+    function stripeRes(status, response) {
+        if (response.error) {
+            $('.error')
+                .removeClass('hide')
+                .find('.alert')
+                .text(response.error.message);
+        } else {
+            var token = response['id'];
+            let fname = $('#fName').val()
+            let lname = $('#lName').val()
+            let email = $('#email').val()
+            let password = $('#password').val()
+            let page_count = $('#pageCount input').val()
+            let word_count = $('#wordCount input').val()
+            let translate_from = $('#translateFrom').val()
+            let translate_to = $('#translateTo').val()
+            let serviceType;
+            let types = document.querySelectorAll('.common__btn span');
+            types.forEach(e => {
+                console.log()
+                if (e.innerHTML.trim() == 'Selected') {
+                    serviceType = e.getAttribute('data-value')
+                }
+            })
+            let grand_total = $('.grand_total').html()
+            let days = $('.est_days').html()
+            let notes = $('#notes').val()
+            var payment_type = "Stripe";
+            var extra_service = extra_service
+            console.log(fname,lname,email,password,page_count,word_count,translate_from,translate_to,fileName,serviceType,days,grand_total,notes)
+            $form.find('input[type=text]').empty();
+            $form.append("<input type='hidden' name='stripeToken' value='" + token + "'/>");
+            $form.append("<input type='hidden' name='grand_total' value='" + grand_total + "'/>");
+            $form.append("<input type='hidden' name='fname' value='" + fname + "'/>");
+            $form.append("<input type='hidden' name='lname' value='" + lname + "'/>");
+            $form.append("<input type='hidden' name='email' value='" + email + "'/>");
+            $form.append("<input type='hidden' name='password' value='" + password + "'/>");
+            $form.append("<input type='hidden' name='translate_type' value='" + serviceType + "'/>");
+            $form.append("<input type='hidden' name='translate_from' value='" + translate_from + "'/>");
+            $form.append("<input type='hidden' name='translate_to' value='" + translate_to + "'/>");
+            $form.append("<input type='hidden' name='page_count' value='" + page_count + "'/>");
+            $form.append("<input type='hidden' name='word_count' value='" + word_count + "'/>");
+            $form.append("<input type='hidden' name='days' value='" + days + "'/>");
+            $form.append("<input type='hidden' name='extra_service' value='" + extra_service + "'/>");
+            $form.append("<input type='hidden' name='payment_type' value='" + payment_type + "'/>");
+            $form.append("<input type='hidden' name='Notes' value='" + notes + "'/>");
+            $form.get(0).submit();
+        }
+    }
+})
 

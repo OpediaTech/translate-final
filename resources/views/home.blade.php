@@ -25,6 +25,7 @@
                         <thead>
                           <tr>
                             <th scope="col">SL</th>
+                            <th scope="col">ORDER ID</th>
                             <th scope="col">Fname</th>
                             <th scope="col">Lname</th>
                             <th scope="col">Email</th>
@@ -45,6 +46,7 @@
                             @foreach ($orders as $item)
                             <tr>
                                 <th scope="row">{{$item->id}}</th>
+                                <td>{{$item->order_id}}</td>
                                 <td>{{$item->fname}}</td>
                                 <td>{{$item->lname}}</td>
                                 <td>{{$item->email}}</td>

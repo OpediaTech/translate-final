@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('payment_models', function (Blueprint $table) {
             $table->id();
+            $table->string('order_id')->nullable();
             $table->string('fname');
             $table->string('lname');
             $table->string('email');

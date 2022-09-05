@@ -40,7 +40,7 @@
                         <td bgcolor="#ffffff" align="left">								<table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tbody>
 <tr>
-                <td colspan="2" style="padding-left:30px;padding-right:15px;padding-bottom:10px; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 25px;">                      <p>You have successfully submitted your Order. Here's the copy of your order details:&nbsp;</p>
+                <td colspan="2" style="padding-left:30px;padding-right:15px;padding-bottom:10px; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 25px;">                      <p>You have successfully submitted your Order. Your order ID is - {{ $data->order_id }}: &nbsp;</p>
                 </td>
               </tr>
                                 <tr>

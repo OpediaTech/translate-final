@@ -20,11 +20,13 @@ Route::get('/', function () {
 });
 
 Route::get('/', [PaymentController::class, 'index']);
-// Route::post('/transaction', [PaymentController::class, 'makePayment'])->name('make-payment');
+Route::post('/transaction', [PaymentController::class, 'makePayment'])->name('make-payment');
 
 
 Route::get('/paypal-order', [PaymentController::class, 'get_order_data'])->name('get_order_data');
 Route::get('/thank-you', [PaymentController::class, 'Thank'])->name('thank');
+Route::post('/image-upload', [PaymentController::class, 'ImageUpload'])->name('image_upload');
+
 
 // Route::get('/email-send', [PaymentController::class, 'EmailSend'])->name('email');
 
