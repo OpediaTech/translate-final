@@ -9,7 +9,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
                     <a class="btn btn-info" href="{{ route('edit') }}">Edit Items</a>
-     
+
 
             <div class="card mt-5">
                 <div class="card-header">{{ __('ORDERS') }}</div>
@@ -39,6 +39,7 @@
                             <th scope="col">Payment Type</th>
                             <th scope="col">Notes</th>
                             <th scope="col">Total</th>
+                            <th scope="col">File</th>
                             <th scope="col">Created_at</th>
                           </tr>
                         </thead>
@@ -60,11 +61,13 @@
                                 <td>{{$item->payment_type}}</td>
                                 <td>{{$item->Notes}}</td>
                                 <td>{{$item->grand_total}}$</td>
+                                <td> <a href='{{asset($item->translated_file)}}' download>Click to download </a>
+                                    </td>
                                 <td>{{$item->created_at->format('M-d- Y')}}</td>
                               </tr>
                             @endforeach
-                         
-                          
+
+
                         </tbody>
                       </table>
                 </div>

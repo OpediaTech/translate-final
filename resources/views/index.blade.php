@@ -54,7 +54,7 @@
                     <!--form panels-->
                     <div class="row">
                         <div class="col-12 ">
-                            <form id="form" class="multisteps-form__form" style="height:612px;" enctype="multipart/form-data">
+                            <div id="form" class="multisteps-form__form" style="height:612px;" >
                                 <!--single form panel-->
                                 <div class="multisteps-form__panel shadow p-4 rounded bg-white js-active" data-animation="scaleIn">
 
@@ -575,7 +575,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>

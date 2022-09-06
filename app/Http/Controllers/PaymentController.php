@@ -56,7 +56,7 @@ class PaymentController extends Controller
         $paymentModel->grand_total = $request->grand_total;
         $paymentModel->created_at = Carbon::now();
         $paymentModel->save();
-
+        Notification::route('mail', $paymentModel->email)->notify(new orderConfirmation($paymentModel));
         session()->forget('translate_file');
         return redirect(route('thank'));
     }
@@ -104,11 +104,16 @@ class PaymentController extends Controller
 
 public function ImageUpload(Request $request){
 
+
+    $translate_file = session()->get('translate_file');
+    if($translate_file){
+        unlink($translate_file);
+    }
+
     if($request->hasFile('translate_file')){
         $get_image = $request->file('translate_file');
         $image = Str::random(10).".".$get_image->getClientOriginalExtension();
         $get_image->move('uploads/Order/',$image);
-        // Image::make($get_image)->resize(300, 200)->save(public_path('/backend/upload_image/'.$image));
     }
     else{
         $image = 'default.png';

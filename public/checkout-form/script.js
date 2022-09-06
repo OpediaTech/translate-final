@@ -368,93 +368,89 @@ var uprog = {
 
 
  // Stripe integration
-$('.btn-block').click(function(e){
-    e.preventDefault();
-var $form = $(".stripe-payment");
-    $('form.stripe-payment').bind('submit', function(e) {
-        e.preventDefault();
-        var $form = $(".stripe-payment"),
+ var $form = $(".stripe-payment");
+ $('form.stripe-payment').bind('submit', function(e) {
+     e.preventDefault();
+     var $form = $(".stripe-payment"),
 
 
-            inputVal = ['input[type=text]', 'input[type=file]',
-                'textarea'
-            ].join(', '),
-            $inputs = $form.find('.required').find(inputVal),
-            $errorStatus = $form.find('div.error'),
-            valid = true;
-        $errorStatus.addClass('hide');
+         inputVal = ['input[type=text]', 'input[type=file]',
+             'textarea'
+         ].join(', '),
+         $inputs = $form.find('.required').find(inputVal),
+         $errorStatus = $form.find('div.error'),
+         valid = true;
+     $errorStatus.addClass('hide');
 
-        $('.has-error').removeClass('has-error');
-        $inputs.each(function(i, el) {
-            var $input = $(el);
-            if ($input.val() === '') {
-                $input.parent().addClass('has-error');
-                $errorStatus.removeClass('hide');
-                e.preventDefault();
-            }
-        });
+     $('.has-error').removeClass('has-error');
+     $inputs.each(function(i, el) {
+         var $input = $(el);
+         if ($input.val() === '') {
+             $input.parent().addClass('has-error');
+             $errorStatus.removeClass('hide');
+             e.preventDefault();
+         }
+     });
 
-        if (!$form.data('cc-on-file')) {
-            e.preventDefault();
-            Stripe.setPublishableKey($form.data('stripe-publishable-key'));
-            Stripe.createToken({
-                number: $('.card-num').val(),
-                cvc: $('.card-cvc').val(),
-                exp_month: $('.card-expiry-month').val(),
-                exp_year: $('.card-expiry-year').val()
-            }, stripeRes);
-        }
+     if (!$form.data('cc-on-file')) {
+         e.preventDefault();
+         Stripe.setPublishableKey($form.data('stripe-publishable-key'));
+         Stripe.createToken({
+             number: $('.card-num').val(),
+             cvc: $('.card-cvc').val(),
+             exp_month: $('.card-expiry-month').val(),
+             exp_year: $('.card-expiry-year').val()
+         }, stripeRes);
+     }
 
-    });
+ });
 
-    function stripeRes(status, response) {
-        if (response.error) {
-            $('.error')
-                .removeClass('hide')
-                .find('.alert')
-                .text(response.error.message);
-        } else {
-            var token = response['id'];
-            let fname = $('#fName').val()
-            let lname = $('#lName').val()
-            let email = $('#email').val()
-            let password = $('#password').val()
-            let page_count = $('#pageCount input').val()
-            let word_count = $('#wordCount input').val()
-            let translate_from = $('#translateFrom').val()
-            let translate_to = $('#translateTo').val()
-            let serviceType;
-            let types = document.querySelectorAll('.common__btn span');
-            types.forEach(e => {
-                console.log()
-                if (e.innerHTML.trim() == 'Selected') {
-                    serviceType = e.getAttribute('data-value')
-                }
-            })
-            let grand_total = $('.grand_total').html()
-            let days = $('.est_days').html()
-            let notes = $('#notes').val()
-            var payment_type = "Stripe";
-            var extra_service = extra_service
-            console.log(fname,lname,email,password,page_count,word_count,translate_from,translate_to,fileName,serviceType,days,grand_total,notes)
-            $form.find('input[type=text]').empty();
-            $form.append("<input type='hidden' name='stripeToken' value='" + token + "'/>");
-            $form.append("<input type='hidden' name='grand_total' value='" + grand_total + "'/>");
-            $form.append("<input type='hidden' name='fname' value='" + fname + "'/>");
-            $form.append("<input type='hidden' name='lname' value='" + lname + "'/>");
-            $form.append("<input type='hidden' name='email' value='" + email + "'/>");
-            $form.append("<input type='hidden' name='password' value='" + password + "'/>");
-            $form.append("<input type='hidden' name='translate_type' value='" + serviceType + "'/>");
-            $form.append("<input type='hidden' name='translate_from' value='" + translate_from + "'/>");
-            $form.append("<input type='hidden' name='translate_to' value='" + translate_to + "'/>");
-            $form.append("<input type='hidden' name='page_count' value='" + page_count + "'/>");
-            $form.append("<input type='hidden' name='word_count' value='" + word_count + "'/>");
-            $form.append("<input type='hidden' name='days' value='" + days + "'/>");
-            $form.append("<input type='hidden' name='extra_service' value='" + extra_service + "'/>");
-            $form.append("<input type='hidden' name='payment_type' value='" + payment_type + "'/>");
-            $form.append("<input type='hidden' name='Notes' value='" + notes + "'/>");
-            $form.get(0).submit();
-        }
-    }
-})
-
+ function stripeRes(status, response) {
+     if (response.error) {
+         $('.error')
+             .removeClass('hide')
+             .find('.alert')
+             .text(response.error.message);
+     } else {
+         var token = response['id'];
+         let fname = $('#fName').val()
+         let lname = $('#lName').val()
+         let email = $('#email').val()
+         let password = $('#password').val()
+         let page_count = $('#pageCount input').val()
+         let word_count = $('#wordCount input').val()
+         let translate_from = $('#translateFrom').val()
+         let translate_to = $('#translateTo').val()
+         let serviceType;
+         let types = document.querySelectorAll('.common__btn span');
+         types.forEach(e => {
+             console.log()
+             if (e.innerHTML.trim() == 'Selected') {
+                 serviceType = e.getAttribute('data-value')
+             }
+         })
+         let grand_total = $('.grand_total').html()
+         let days = $('.est_days').html()
+         let notes = $('#notes').val()
+         var payment_type = "Stripe";
+         var extra_service = extra_service
+         console.log(fname,lname,email,password,page_count,word_count,translate_from,translate_to,fileName,serviceType,days,grand_total,notes)
+         $form.find('input[type=text]').empty();
+         $form.append("<input type='hidden' name='stripeToken' value='" + token + "'/>");
+         $form.append("<input type='hidden' name='grand_total' value='" + grand_total + "'/>");
+         $form.append("<input type='hidden' name='fname' value='" + fname + "'/>");
+         $form.append("<input type='hidden' name='lname' value='" + lname + "'/>");
+         $form.append("<input type='hidden' name='email' value='" + email + "'/>");
+         $form.append("<input type='hidden' name='password' value='" + password + "'/>");
+         $form.append("<input type='hidden' name='translate_type' value='" + serviceType + "'/>");
+         $form.append("<input type='hidden' name='translate_from' value='" + translate_from + "'/>");
+         $form.append("<input type='hidden' name='translate_to' value='" + translate_to + "'/>");
+         $form.append("<input type='hidden' name='page_count' value='" + page_count + "'/>");
+         $form.append("<input type='hidden' name='word_count' value='" + word_count + "'/>");
+         $form.append("<input type='hidden' name='days' value='" + days + "'/>");
+         $form.append("<input type='hidden' name='extra_service' value='" + extra_service + "'/>");
+         $form.append("<input type='hidden' name='payment_type' value='" + payment_type + "'/>");
+         $form.append("<input type='hidden' name='Notes' value='" + notes + "'/>");
+         $form.get(0).submit();
+     }
+ }

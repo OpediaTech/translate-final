@@ -20,7 +20,7 @@ class HomeController extends Controller
 
     public function index()
     {
-        $orders = PaymentModel::orderBy('id','desc')->get();
+        $orders = PaymentModel::orderBy('created_at','desc')->get();
         return view('home',compact('orders'));
     }
 
@@ -72,6 +72,6 @@ class HomeController extends Controller
     }
 
 
- 
+
 
 }
